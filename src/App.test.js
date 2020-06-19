@@ -1,7 +1,10 @@
 import React from 'react';
 import App from './App';
+
 import { render, fireEvent } from './test-utils';
 
+import todoReducer from './reducers';
+import * as actions from './actions';
 import {
   mockedTodos,
   itemToAdd,
@@ -52,13 +55,14 @@ describe('App todo display tests', () => {
   });
 });
 
-describe('TODO tests', () => {
+describe('redux TODO tests', () => {
   test('should add todo item', () => {
-    const copiedMockedTodos = [...mockedTodos];
-    const newTodos = copiedMockedTodos.concat(itemToAdd);
-
-    expect(copiedMockedTodos.length).toBe(5);
-    expect(newTodos.length).toBe(6);
+    const state = { todos: mockedTodos };
+    const action = { type: actions.ADD_TODO, todo: itemToAdd };
+    const currentStoreState = todoReducer(state, action);
+    const lastStoreItem =
+      currentStoreState.todos[currentStoreState.todos.length - 1];
+    expect(lastStoreItem.title).toBe(itemToAdd.title);
   });
 
   test('should update todo item', () => {
@@ -78,22 +82,25 @@ describe('TODO tests', () => {
   });
 
   test('should remove todo item', () => {
-    const copiedMockedTodos = [...mockedTodos];
-    const newTodos = copiedMockedTodos.filter(
-      (item) => item.id !== itemToRemoveId,
-    );
-    const findRemoveditem = newTodos.find((item) => item.id === itemToRemoveId);
+    const state = { todos: mockedTodos };
+    const action = { type: actions.REMOVE_TODO, itemId: itemToRemoveId };
+    const currentStoreState = todoReducer(state, action);
 
-    expect(copiedMockedTodos.length).toBe(5);
-    expect(findRemoveditem).toBe(undefined);
-    expect(newTodos.length).toBe(4);
+    const findItemRemovedItemId = currentStoreState.todos.find(
+      (item) => item.id === itemToRemoveId,
+    );
+
+    expect(findItemRemovedItemId).toBe(undefined);
+    expect(currentStoreState.todos.length).toBe(4);
   });
 
   test('should display all items', () => {
-    const copiedMockedTodos = [...mockedTodos];
+    const state = { todos: mockedTodos };
+    const action = { type: actions.DISPLAY_ALL_TODOS };
+    const currentStoreState = todoReducer(state, action);
 
-    expect(copiedMockedTodos.length).toBe(5);
-    expect(copiedMockedTodos.length).toBe(mockedTodos.length);
+    expect(mockedTodos.length).toBe(currentStoreState.todos.length);
+    expect(currentStoreState.todos.length).toBe(5);
   });
 
   test('should display all active items', () => {
