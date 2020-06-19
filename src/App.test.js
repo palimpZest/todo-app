@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import App from './App';
+import { render } from './test-utils';
 
 import {
   mockedTodos,
@@ -14,6 +14,12 @@ test('renders todo title', () => {
   const { getByText } = render(<App />);
   const linkElement = getByText(/todos/i);
   expect(linkElement).toBeInTheDocument();
+});
+
+test('renders default todo item', () => {
+  const { getByText } = render(<App />);
+
+  expect(getByText(/test todo title/i)).toBeInTheDocument();
 });
 
 describe('TODO tests', () => {
