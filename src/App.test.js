@@ -10,9 +10,9 @@ import {
   titleToUpdate,
 } from './mocks';
 
-test('renders learn react link', () => {
+test('renders todo title', () => {
   const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
+  const linkElement = getByText(/todos/i);
   expect(linkElement).toBeInTheDocument();
 });
 
