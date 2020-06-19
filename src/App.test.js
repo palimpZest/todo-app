@@ -1,6 +1,6 @@
 import React from 'react';
 import App from './App';
-import { render } from './test-utils';
+import { render, fireEvent } from './test-utils';
 
 import {
   mockedTodos,
@@ -10,16 +10,34 @@ import {
   titleToUpdate,
 } from './mocks';
 
-test('renders todo title', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/todos/i);
-  expect(linkElement).toBeInTheDocument();
-});
+describe('App todo display tests', () => {
+  test('renders todo title', () => {
+    const { getByText } = render(<App />);
+    const linkElement = getByText(/todos/i);
+    expect(linkElement).toBeInTheDocument();
+  });
 
-test('renders default todo item', () => {
-  const { getByText } = render(<App />);
+  test('renders default todo item', () => {
+    const { getByText } = render(<App />);
+    expect(getByText(/test todo title/i)).toBeInTheDocument();
+  });
 
-  expect(getByText(/test todo title/i)).toBeInTheDocument();
+  test('adds todo item from form input', () => {
+    const { getByText, getByTestId } = render(<App />, {
+      initialState: { todos: mockedTodos },
+    });
+
+    const newTitleToAdd = 'Good Day';
+    const input = getByTestId('todo-input-id');
+
+    expect(input.value).toBe('');
+
+    fireEvent.change(input, { target: { value: newTitleToAdd } });
+    fireEvent.submit(input);
+
+    expect(input).toBeInTheDocument();
+    expect(getByText(newTitleToAdd)).toBeInTheDocument();
+  });
 });
 
 describe('TODO tests', () => {
