@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
-import { display_todos, add_todo } from './actions';
+import { display_todos, add_todo, remove_todo } from './actions';
 
 import './App.css';
 
@@ -30,6 +30,10 @@ class App extends Component {
     this.setState({ value: '' });
   };
 
+  handleRemove = (itemId) => {
+    this.props.remove_todo(itemId);
+  };
+
   render() {
     const { todos } = this.props;
 
@@ -44,7 +48,18 @@ class App extends Component {
             onChange={this.handleChange}
           />
         </form>
-        {todos && todos.map((item) => <p key={item.id}>{item.title}</p>)}
+        {todos &&
+          todos.map((item) => (
+            <div style={{ display: 'flex' }} key={item.id}>
+              <p>{item.title}</p>
+              <button
+                data-testid={`delete-button-${item.id}`}
+                onClick={() => this.handleRemove(item.id)}
+              >
+                x
+              </button>
+            </div>
+          ))}
       </div>
     );
   }
@@ -57,7 +72,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ display_todos, add_todo }, dispatch);
+  return bindActionCreators({ display_todos, add_todo, remove_todo }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
