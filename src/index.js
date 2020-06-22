@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
 
 import todoReducer from './reducers';
 
 import './index.css';
-import App from './App';
+import Root from './Root';
 import * as serviceWorker from './serviceWorker';
 
 const store = compose(
@@ -15,9 +14,7 @@ const store = compose(
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <Root store={store} />
   </React.StrictMode>,
   document.getElementById('root'),
 );

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { display_todos, add_todo, remove_todo } from './actions';
+import ButtonBar from './components/ButtonBar';
+import VisibleTodoList from './containers/VisibleTodoList';
+
+import { display_todos, add_todo } from './actions';
 
 import './App.css';
 
@@ -30,12 +34,10 @@ class App extends Component {
     this.setState({ value: '' });
   };
 
-  handleRemove = (itemId) => {
-    this.props.remove_todo(itemId);
-  };
-
   render() {
-    const { todos } = this.props;
+    const {
+      match: { params },
+    } = this.props;
 
     return (
       <div className="App">
@@ -48,18 +50,8 @@ class App extends Component {
             onChange={this.handleChange}
           />
         </form>
-        {todos &&
-          todos.map((item) => (
-            <div style={{ display: 'flex' }} key={item.id}>
-              <p>{item.title}</p>
-              <button
-                data-testid={`delete-button-${item.id}`}
-                onClick={() => this.handleRemove(item.id)}
-              >
-                x
-              </button>
-            </div>
-          ))}
+        <VisibleTodoList filter={params.filter || 'all'} />
+        <ButtonBar />
       </div>
     );
   }
@@ -72,7 +64,13 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ display_todos, add_todo, remove_todo }, dispatch);
+  return bindActionCreators(
+    {
+      display_todos,
+      add_todo,
+    },
+    dispatch,
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

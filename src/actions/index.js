@@ -21,3 +21,9 @@ export function remove_todo(itemId) {
     itemId,
   };
 }
+
+export const VisibilityFilters = {
+  SHOW_ALL_TODOS: 'all',
+  SHOW_COMPLETED_TODOS: 'completed',
+  SHOW_ACTIVE_TODOS: 'active',
+};
