@@ -53,6 +53,46 @@ describe('App todo display tests', () => {
     expect(queryByText(secondMockedTodo.title)).not.toBeInTheDocument();
   });
 
+  test('displays clear completed button only if completed todos are present', () => {
+    const { getByTestId, queryByTestId } = renderWithRouter(<App />, {
+      initialState: { todos: mockedTodos },
+      route: '/all',
+      path: '/:filter',
+    });
+
+    const areSomeCompleted = mockedTodos.some(
+      (item) => item.completed === true,
+    );
+
+    const clearButton = getByTestId('button-clear-completed-id');
+
+    expect(areSomeCompleted).toBe(true);
+    expect(clearButton).toBeVisible();
+
+    fireEvent.click(clearButton);
+
+    const clearButtonAfterClick = queryByTestId('button-clear-completed-id');
+
+    expect(clearButtonAfterClick).toBe(null);
+  });
+
+  test('removes all completed todo items with button', () => {
+    const { getAllByTestId, getByTestId } = renderWithRouter(<App />, {
+      initialState: { todos: mockedTodos },
+      route: '/all',
+      path: '/:filter',
+    });
+
+    const allVisibleItems = getAllByTestId('todo-item-id');
+    expect(allVisibleItems.length).toBe(5);
+
+    const clearCompletedButton = getByTestId(`button-clear-completed-id`);
+    fireEvent.click(clearCompletedButton);
+
+    const allVisibleItemsAfterClick = getAllByTestId('todo-item-id');
+    expect(allVisibleItemsAfterClick.length).toBe(2);
+  });
+
   test('renders all todos', () => {
     const { getAllByTestId } = renderWithRouter(<App />, {
       initialState: { todos: mockedTodos },
@@ -81,7 +121,7 @@ describe('App todo display tests', () => {
   });
 
   test('renders completed todos only', () => {
-    const { getByTestId, getAllByTestId, debug } = renderWithRouter(<App />, {
+    const { getByTestId, getAllByTestId } = renderWithRouter(<App />, {
       initialState: { todos: mockedTodos },
       route: '/completed',
       path: '/:filter',
@@ -90,7 +130,6 @@ describe('App todo display tests', () => {
     const buttonCompleted = getByTestId('button-completed-id');
     fireEvent.click(buttonCompleted);
 
-    debug();
     const allVisibleItems = getAllByTestId('todo-item-id');
 
     expect(allVisibleItems.length).toBe(3);

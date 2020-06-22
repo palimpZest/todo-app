@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ButtonBar from './components/ButtonBar';
 import VisibleTodoList from './containers/VisibleTodoList';
 
-import { display_todos, add_todo } from './actions';
+import { display_todos, add_todo, remove_completed_todos } from './actions';
 
 import './App.css';
 
@@ -34,9 +34,14 @@ class App extends Component {
     this.setState({ value: '' });
   };
 
+  handleClearCompleted = () => {
+    this.props.remove_completed_todos();
+  };
+
   render() {
     const {
       match: { params },
+      areSomeCompleted,
     } = this.props;
 
     return (
@@ -51,7 +56,10 @@ class App extends Component {
           />
         </form>
         <VisibleTodoList filter={params.filter || 'all'} />
-        <ButtonBar />
+        <ButtonBar
+          handleClearCompleted={this.handleClearCompleted}
+          areSomeCompleted={areSomeCompleted}
+        />
       </div>
     );
   }
@@ -60,6 +68,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     todos: state.todos,
+    areSomeCompleted: state.todos.some((item) => item.completed === true),
   };
 };
 
@@ -68,6 +77,7 @@ const mapDispatchToProps = (dispatch) => {
     {
       display_todos,
       add_todo,
+      remove_completed_todos,
     },
     dispatch,
   );
