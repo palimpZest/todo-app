@@ -3,6 +3,7 @@ import {
   ADD_TODO,
   REMOVE_TODO,
   REMOVE_COMPLETED_TODOS,
+  TOGGLE_TODO_STATUS,
 } from '../actions';
 
 export const initialState = [
@@ -26,6 +27,18 @@ const todoReducer = (state = { todos: initialState }, action) => {
       return {
         ...state,
         todos: state.todos.filter((item) => item.completed === false),
+      };
+    case TOGGLE_TODO_STATUS:
+      return {
+        ...state,
+        todos: state.todos.map((item) =>
+          item.id === action.itemId
+            ? {
+                ...item,
+                completed: !item.completed,
+              }
+            : item,
+        ),
       };
     default:
       return state;

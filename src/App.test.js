@@ -134,6 +134,29 @@ describe('App todo display tests', () => {
 
     expect(allVisibleItems.length).toBe(3);
   });
+
+  test('toggles individual todo status', () => {
+    const { getByTestId } = renderWithRouter(<App />, {
+      initialState: { todos: mockedTodos },
+      route: '/all',
+      path: '/:filter',
+    });
+
+    const mockedActiveTodoId = mockedTodos[0].id;
+    const mockedActiveTodoInput = getByTestId(
+      `checkbox-id-${mockedActiveTodoId}`,
+    );
+
+    expect(mockedActiveTodoInput.value).toBe('active');
+
+    fireEvent.click(mockedActiveTodoInput);
+
+    expect(mockedActiveTodoInput.value).toBe('completed');
+
+    fireEvent.click(mockedActiveTodoInput);
+
+    expect(mockedActiveTodoInput.value).toBe('active');
+  });
 });
 
 describe('redux TODO tests', () => {
