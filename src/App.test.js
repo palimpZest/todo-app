@@ -187,6 +187,15 @@ describe('App todo display tests', () => {
 });
 
 describe('redux TODO tests', () => {
+  test('should display all items', () => {
+    const state = { todos: mockedTodos };
+    const action = { type: actions.DISPLAY_ALL_TODOS };
+    const currentStoreState = todoReducer(state, action);
+
+    expect(mockedTodos.length).toBe(currentStoreState.todos.length);
+    expect(currentStoreState.todos.length).toBe(5);
+  });
+
   test('should add todo item', () => {
     const state = { todos: mockedTodos };
     const action = { type: actions.ADD_TODO, todo: itemToAdd };
@@ -225,42 +234,61 @@ describe('redux TODO tests', () => {
     expect(currentStoreState.todos.length).toBe(4);
   });
 
-  test('should display all items', () => {
+  test('should clear completed items', () => {
     const state = { todos: mockedTodos };
-    const action = { type: actions.DISPLAY_ALL_TODOS };
+    const action = { type: actions.REMOVE_COMPLETED_TODOS };
     const currentStoreState = todoReducer(state, action);
 
-    expect(mockedTodos.length).toBe(currentStoreState.todos.length);
-    expect(currentStoreState.todos.length).toBe(5);
-  });
-
-  test('should display all active items', () => {
-    const copiedMockedTodos = [...mockedTodos];
-    const newTodos = copiedMockedTodos.filter(
-      (item) => item.completed === false,
-    );
-
-    expect(copiedMockedTodos.length).toBe(5);
-    expect(newTodos.length).toBe(2);
-  });
-
-  test('should display all completed items', () => {
-    const copiedMockedTodos = [...mockedTodos];
-    const newTodos = copiedMockedTodos.filter(
+    const hasCompletedTodos = currentStoreState.todos.some(
       (item) => item.completed === true,
     );
 
-    expect(copiedMockedTodos.length).toBe(5);
-    expect(newTodos.length).toBe(3);
+    expect(hasCompletedTodos).toBe(false);
+    expect(currentStoreState.todos.length).toBe(2);
   });
 
-  test('should clear completed items', () => {
-    const copiedMockedTodos = [...mockedTodos];
-    const newTodos = copiedMockedTodos.filter(
+  test('should toggle individual todo status', () => {
+    const firstMockedItem = mockedTodos[0];
+    expect(firstMockedItem.completed).toBe(false);
+
+    const state = { todos: mockedTodos };
+    const action = {
+      type: actions.TOGGLE_TODO_STATUS,
+      itemId: firstMockedItem.id,
+    };
+    const currentStoreState = todoReducer(state, action);
+
+    const firstMockedItemAfterToggle = currentStoreState.todos[0].completed;
+    expect(firstMockedItemAfterToggle).toBe(true);
+
+    const updatedState = { todos: currentStoreState.todos };
+    const currentStoreStateAfterFirstToggle = todoReducer(updatedState, action);
+
+    const firstMockedItemAfterSecondToggle =
+      currentStoreStateAfterFirstToggle.todos[0].completed;
+    expect(firstMockedItemAfterSecondToggle).toBe(false);
+  });
+
+  test('should toggle every todo status', () => {
+    const state = { todos: mockedTodos };
+    const action = {
+      type: actions.TOGGLE_EVERY_TODO_STATUS,
+    };
+    const currentStoreState = todoReducer(state, action);
+
+    const hasActiveTodos = currentStoreState.todos.some(
       (item) => item.completed === false,
     );
 
-    expect(copiedMockedTodos.length).toBe(5);
-    expect(newTodos.length).toBe(2);
+    expect(hasActiveTodos).toBe(false);
+
+    const updatedState = { todos: currentStoreState.todos };
+    const currentStoreStateAfterToggle = todoReducer(updatedState, action);
+
+    const hasCompletedTodos = currentStoreStateAfterToggle.todos.some(
+      (item) => item.completed === true,
+    );
+
+    expect(hasCompletedTodos).toBe(false);
   });
 });
