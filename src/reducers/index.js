@@ -1,6 +1,8 @@
 import {
   DISPLAY_ALL_TODOS,
   ADD_TODO,
+  SELECT_ITEM_TO_UPDATE,
+  UPDATE_TODO,
   REMOVE_TODO,
   REMOVE_COMPLETED_TODOS,
   TOGGLE_TODO_STATUS,
@@ -13,12 +15,32 @@ export const initialState = [
   { id: 'testId3', title: 'test todo completed II', completed: true },
 ];
 
-const todoReducer = (state = { todos: initialState }, action) => {
+const todoReducer = (
+  state = { todos: initialState, itemToUpdate: '' },
+  action,
+) => {
   switch (action.type) {
     case DISPLAY_ALL_TODOS:
       return state;
     case ADD_TODO:
       return { ...state, todos: state.todos.concat(action.todo) };
+    case SELECT_ITEM_TO_UPDATE:
+      return {
+        ...state,
+        itemToUpdate: action.itemId,
+      };
+    case UPDATE_TODO:
+      return {
+        ...state,
+        todos: state.todos.map((item) =>
+          item.id === action.itemToUpdate.id
+            ? {
+                ...item,
+                title: action.itemToUpdate.title,
+              }
+            : item,
+        ),
+      };
     case REMOVE_TODO:
       return {
         ...state,

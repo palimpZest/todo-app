@@ -4,6 +4,8 @@ export const REMOVE_TODO = 'REMOVE_TODO';
 export const REMOVE_COMPLETED_TODOS = 'REMOVE_COMPLETED_TODOS';
 export const TOGGLE_TODO_STATUS = 'TOGGLE_TODO_STATUS';
 export const TOGGLE_EVERY_TODO_STATUS = 'TOGGLE_EVERY_TODO_STATUS';
+export const UPDATE_TODO = 'UPDATE_TODO';
+export const SELECT_ITEM_TO_UPDATE = 'SELECT_ITEM_TO_UPDATE';
 
 export function display_todos() {
   return {
@@ -15,6 +17,20 @@ export function add_todo(todo) {
   return {
     type: ADD_TODO,
     todo,
+  };
+}
+
+export function select_item_to_update(itemId) {
+  return {
+    type: SELECT_ITEM_TO_UPDATE,
+    itemId,
+  };
+}
+
+export function update_todo(itemToUpdate) {
+  return {
+    type: UPDATE_TODO,
+    itemToUpdate,
   };
 }
 

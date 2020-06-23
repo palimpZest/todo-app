@@ -41,6 +41,34 @@ describe('App todo display tests', () => {
     expect(getByText(newTitleToAdd)).toBeInTheDocument();
   });
 
+  test('updates todo item', () => {
+    const {
+      getAllByTestId,
+      getByTestId,
+      getByText,
+      queryByText,
+    } = renderWithRouter(<App />, {
+      initialState: { todos: mockedTodos },
+    });
+
+    const newTodoTitle = 'This is a new todo title';
+
+    const allVisibleItems = getAllByTestId('todo-item-id');
+    const firstTodoItem = allVisibleItems[0];
+
+    expect(getByText('Hey')).toBeVisible();
+
+    fireEvent.doubleClick(firstTodoItem);
+
+    const updateInput = getByTestId('todo-update-input-id');
+
+    fireEvent.change(updateInput, { target: { value: newTodoTitle } });
+    fireEvent.submit(updateInput);
+
+    expect(queryByText('Hey')).not.toBeInTheDocument();
+    expect(getByText(newTodoTitle)).toBeVisible();
+  });
+
   test('removes todo item with button', () => {
     const { queryByText, getByTestId } = renderWithRouter(<App />, {
       initialState: { todos: mockedTodos },
@@ -205,20 +233,27 @@ describe('redux TODO tests', () => {
     expect(lastStoreItem.title).toBe(itemToAdd.title);
   });
 
-  test('should update todo item', () => {
-    const copiedMockedTodos = [...mockedTodos];
-    const newTodos = copiedMockedTodos.map((item) => {
-      if (item.id === itemToUpdateId) {
-        return {
-          ...item,
-          title: titleToUpdate,
-        };
-      }
-      return item;
-    });
+  test('should select todo item to update', () => {
+    const state = { todos: mockedTodos };
+    const action = {
+      type: actions.SELECT_ITEM_TO_UPDATE,
+      itemId: itemToUpdateId,
+    };
+    const currentStoreState = todoReducer(state, action);
 
-    expect(copiedMockedTodos[2].title).toBe('Bonjour');
-    expect(newTodos[2].title).toBe(titleToUpdate);
+    expect(currentStoreState.itemToUpdate).toBe(itemToUpdateId);
+  });
+
+  test('should update todo item', () => {
+    const state = { todos: mockedTodos };
+    const action = {
+      type: actions.UPDATE_TODO,
+      itemToUpdate: { id: itemToUpdateId, title: titleToUpdate },
+    };
+    const currentStoreState = todoReducer(state, action);
+
+    expect(mockedTodos[2].title).toBe('Bonjour');
+    expect(currentStoreState.todos[2].title).toBe(titleToUpdate);
   });
 
   test('should remove todo item', () => {
