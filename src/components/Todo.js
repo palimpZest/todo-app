@@ -1,21 +1,22 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import { select_item_to_update, update_todo } from '../actions';
+import {
+  select_item_to_update,
+  update_todo,
+  remove_todo,
+  toggle_status,
+} from '../actions';
 
 class Todo extends PureComponent {
   state = {
     titleToUpdate: '',
   };
 
-  toggleVisibleForm = (id) => {
-    this.props.select_item_to_update(id);
-  };
+  toggleVisibleForm = (id) => this.props.select_item_to_update(id);
 
-  handleChange = (e) => {
-    this.setState({ titleToUpdate: e.target.value });
-  };
+  handleChange = (e) => this.setState({ titleToUpdate: e.target.value });
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -27,15 +28,12 @@ class Todo extends PureComponent {
     this.setState({ titleToUpdate: '' });
   };
 
+  handleRemove = (id) => this.props.remove_todo(id);
+
+  toggleStatus = (id) => this.props.toggle_status(id);
+
   render() {
-    const {
-      title,
-      completed,
-      id,
-      handleRemove,
-      toggleStatus,
-      itemToUpdate,
-    } = this.props;
+    const { title, completed, id, itemToUpdate } = this.props;
 
     return (
       <div
@@ -51,7 +49,7 @@ class Todo extends PureComponent {
           id={`${id}`}
           name={`${title}`}
           value={completed ? 'completed' : 'active'}
-          onChange={() => toggleStatus(id)}
+          onChange={() => this.toggleStatus(id)}
         />
         {itemToUpdate === id ? (
           <form onSubmit={this.handleSubmit}>
@@ -74,7 +72,7 @@ class Todo extends PureComponent {
         )}
         <button
           data-testid={`delete-button-${id}`}
-          onClick={() => handleRemove(id)}
+          onClick={() => this.handleRemove(id)}
         >
           x
         </button>
@@ -94,6 +92,8 @@ const mapDispatchToProps = (dispatch) => {
     {
       select_item_to_update,
       update_todo,
+      remove_todo,
+      toggle_status,
     },
     dispatch,
   );
