@@ -7,7 +7,11 @@ import TodoForm from './containers/TodoForm';
 import ButtonBar from './components/ButtonBar';
 import VisibleTodoList from './containers/VisibleTodoList';
 
-import { display_todos, remove_completed_todos } from './actions';
+import {
+  display_todos,
+  remove_completed_todos,
+  toggle_every_status,
+} from './actions';
 
 import './App.css';
 
@@ -24,6 +28,10 @@ class App extends Component {
     this.props.remove_completed_todos();
   };
 
+  toogleEveryTodoStatus = () => {
+    this.props.toggle_every_status();
+  };
+
   render() {
     const {
       match: { params },
@@ -33,7 +41,15 @@ class App extends Component {
     return (
       <div className="App">
         <h1>todos</h1>
-        <TodoForm />
+        <div style={{ display: 'flex' }}>
+          <button
+            data-testid="toggle-all-button-id"
+            onClick={this.toogleEveryTodoStatus}
+          >
+            v
+          </button>
+          <TodoForm />
+        </div>
         <VisibleTodoList filter={params.filter || 'all'} />
         <ButtonBar
           handleClearCompleted={this.handleClearCompleted}
@@ -56,6 +72,7 @@ const mapDispatchToProps = (dispatch) => {
     {
       display_todos,
       remove_completed_todos,
+      toggle_every_status,
     },
     dispatch,
   );

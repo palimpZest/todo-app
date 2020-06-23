@@ -4,6 +4,7 @@ import {
   REMOVE_TODO,
   REMOVE_COMPLETED_TODOS,
   TOGGLE_TODO_STATUS,
+  TOGGLE_EVERY_TODO_STATUS,
 } from '../actions';
 
 export const initialState = [
@@ -38,6 +39,18 @@ const todoReducer = (state = { todos: initialState }, action) => {
                 completed: !item.completed,
               }
             : item,
+        ),
+      };
+    case TOGGLE_EVERY_TODO_STATUS:
+      const hasActiveTodos = state.todos.some(
+        (item) => item.completed === false,
+      );
+      return {
+        ...state,
+        todos: state.todos.map((item) =>
+          hasActiveTodos
+            ? { ...item, completed: true }
+            : { ...item, completed: false },
         ),
       };
     default:

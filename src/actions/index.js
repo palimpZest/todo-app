@@ -3,6 +3,7 @@ export const ADD_TODO = 'ADD_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
 export const REMOVE_COMPLETED_TODOS = 'REMOVE_COMPLETED_TODOS';
 export const TOGGLE_TODO_STATUS = 'TOGGLE_TODO_STATUS';
+export const TOGGLE_EVERY_TODO_STATUS = 'TOGGLE_EVERY_TODO_STATUS';
 
 export function display_todos() {
   return {
@@ -28,6 +29,12 @@ export function toggle_status(itemId) {
   return {
     type: TOGGLE_TODO_STATUS,
     itemId,
+  };
+}
+
+export function toggle_every_status() {
+  return {
+    type: TOGGLE_EVERY_TODO_STATUS,
   };
 }
 
