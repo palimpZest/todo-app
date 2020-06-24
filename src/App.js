@@ -69,8 +69,9 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     todos: state.todos,
-    hasTodos: state.todos.length > 0,
-    areSomeCompleted: state.todos.some((item) => item.completed === true),
+    hasTodos: state.todos && state.todos.length > 0,
+    areSomeCompleted:
+      state.todos && state.todos.some((item) => item.completed === true),
     activeItems: getActiveItems(state.todos),
   };
 };

@@ -9,16 +9,7 @@ import {
   TOGGLE_EVERY_TODO_STATUS,
 } from '../actions';
 
-export const initialState = [
-  { id: 'testId', title: 'test todo title', completed: false },
-  { id: 'testId2', title: 'test todo completed', completed: true },
-  { id: 'testId3', title: 'test todo completed II', completed: true },
-];
-
-const todoReducer = (
-  state = { todos: initialState, itemToUpdate: '' },
-  action,
-) => {
+const todoReducer = (state = { todos: [], itemToUpdate: '' }, action) => {
   switch (action.type) {
     case DISPLAY_ALL_TODOS:
       return state;

@@ -3,11 +3,7 @@ import React from 'react';
 import Todo from '../containers/Todo';
 
 const TodoList = ({ todos }) => (
-  <>
-    {todos.map((todo) => (
-      <Todo key={todo.id} {...todo} />
-    ))}
-  </>
+  <>{todos && todos.map((todo) => <Todo key={todo.id} {...todo} />)}</>
 );
 
 export default TodoList;

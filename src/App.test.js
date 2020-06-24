@@ -21,13 +21,10 @@ describe('App todo display tests', () => {
     expect(linkElement).toBeInTheDocument();
   });
 
-  test('renders default todo item', () => {
-    const { getByText } = renderWithRouter(<App />);
-    expect(getByText(/test todo title/i)).toBeInTheDocument();
-  });
-
   test('adds todo item from form input', () => {
-    const { getByText, getByTestId } = renderWithRouter(<App />);
+    const { getByText, getByTestId } = renderWithRouter(<App />, {
+      initialState: { todos: [] },
+    });
 
     const newTitleToAdd = 'Good Day';
     const input = getByTestId('todo-input-id');

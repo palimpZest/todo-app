@@ -43,7 +43,8 @@ class TodoForm extends Component {
 const mapStateToProps = (state) => {
   return {
     todos: state.todos,
-    areSomeCompleted: state.todos.some((item) => item.completed === true),
+    areSomeCompleted:
+      state.todos && state.todos.some((item) => item.completed === true),
   };
 };
 
