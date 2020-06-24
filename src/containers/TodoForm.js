@@ -30,8 +30,10 @@ class TodoForm extends Component {
         <input
           data-testid="todo-input-id"
           type="text"
+          autoFocus
           value={this.state.value}
           onChange={this.handleChange}
+          placeholder="What to do?"
         />
       </form>
     );

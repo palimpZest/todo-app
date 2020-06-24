@@ -252,6 +252,32 @@ describe('App todo display tests', () => {
     expect(buttonBar).toBeVisible();
     expect(buttonBarAfterClicks).not.toBeInTheDocument();
   });
+
+  test('displays placeholder text on inputs', () => {
+    const { getByPlaceholderText } = renderWithRouter(<App />, {
+      initialState: { todos: mockedTodos },
+    });
+
+    const todoInputPlaceholder = getByPlaceholderText('What to do?');
+
+    expect(todoInputPlaceholder).toBeVisible();
+  });
+
+  test('displays current todo title as input value when selected for update', () => {
+    const { getAllByTestId, getByTestId } = renderWithRouter(<App />, {
+      initialState: { todos: mockedTodos },
+    });
+
+    const allVisibleItems = getAllByTestId('todo-item-id');
+    const firstTodoItem = allVisibleItems[0];
+    const firstTodoItemTitle = mockedTodos[0].title;
+
+    fireEvent.doubleClick(firstTodoItem);
+
+    const updateInput = getByTestId('todo-update-input-id');
+
+    expect(updateInput.value).toBe(firstTodoItemTitle);
+  });
 });
 
 describe('redux TODO tests', () => {

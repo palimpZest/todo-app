@@ -11,7 +11,7 @@ import {
 
 class Todo extends PureComponent {
   state = {
-    titleToUpdate: '',
+    titleToUpdate: this.props.title,
   };
 
   toggleVisibleForm = (id) => this.props.select_item_to_update(id);
@@ -25,7 +25,6 @@ class Todo extends PureComponent {
       title: this.state.titleToUpdate,
     });
     this.toggleVisibleForm('');
-    this.setState({ titleToUpdate: '' });
   };
 
   handleRemove = (id) => this.props.remove_todo(id);
