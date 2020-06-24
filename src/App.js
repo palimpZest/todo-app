@@ -37,6 +37,7 @@ class App extends Component {
   render() {
     const {
       match: { params },
+      hasTodos,
       activeItems,
       areSomeCompleted,
     } = this.props;
@@ -58,6 +59,7 @@ class App extends Component {
           handleClearCompleted={this.handleClearCompleted}
           areSomeCompleted={areSomeCompleted}
           activeItems={activeItems}
+          hasTodos={hasTodos}
         />
       </div>
     );
@@ -67,6 +69,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     todos: state.todos,
+    hasTodos: state.todos.length > 0,
     areSomeCompleted: state.todos.some((item) => item.completed === true),
     activeItems: getActiveItems(state.todos),
   };

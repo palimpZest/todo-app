@@ -233,6 +233,25 @@ describe('App todo display tests', () => {
     expect(itemsRemainingAfterToggleAllActive).toBeVisible();
     expect(itemsRemainingAfterToggleAllCompleted).toBeVisible();
   });
+
+  test('displays button bar only if todos are present', () => {
+    const { getByTestId, queryByTestId } = renderWithRouter(<App />, {
+      initialState: { todos: mockedTodos },
+    });
+
+    const buttonBar = getByTestId('button-bar-id');
+
+    const toogleAllButton = getByTestId('toggle-all-button-id');
+    fireEvent.click(toogleAllButton);
+
+    const clearButton = getByTestId('button-clear-completed-id');
+    fireEvent.click(clearButton);
+
+    const buttonBarAfterClicks = queryByTestId('button-bar-id');
+
+    expect(buttonBar).toBeVisible();
+    expect(buttonBarAfterClicks).not.toBeInTheDocument();
+  });
 });
 
 describe('redux TODO tests', () => {
