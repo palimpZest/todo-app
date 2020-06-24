@@ -2,8 +2,9 @@ import React from 'react';
 import FilterLink from '../containers/FilterLink';
 import { VisibilityFilters } from '../actions';
 
-const ButtonBar = ({ handleClearCompleted, areSomeCompleted }) => (
+const ButtonBar = ({ handleClearCompleted, areSomeCompleted, activeItems }) => (
   <div>
+    <div>{activeItems} items left</div>
     <FilterLink filter={VisibilityFilters.SHOW_ALL_TODOS}>
       <button>All</button>
     </FilterLink>

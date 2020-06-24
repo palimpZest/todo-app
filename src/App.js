@@ -13,6 +13,8 @@ import {
   toggle_every_status,
 } from './actions';
 
+import { getActiveItems } from './helpers';
+
 import './App.css';
 
 class App extends Component {
@@ -35,6 +37,7 @@ class App extends Component {
   render() {
     const {
       match: { params },
+      activeItems,
       areSomeCompleted,
     } = this.props;
 
@@ -54,6 +57,7 @@ class App extends Component {
         <ButtonBar
           handleClearCompleted={this.handleClearCompleted}
           areSomeCompleted={areSomeCompleted}
+          activeItems={activeItems}
         />
       </div>
     );
@@ -64,6 +68,7 @@ const mapStateToProps = (state) => {
   return {
     todos: state.todos,
     areSomeCompleted: state.todos.some((item) => item.completed === true),
+    activeItems: getActiveItems(state.todos),
   };
 };
 

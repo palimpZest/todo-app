@@ -212,6 +212,27 @@ describe('App todo display tests', () => {
       expect(checkbox.value).toBe('active');
     });
   });
+
+  test('displays remaining items', () => {
+    const { getByTestId, getByText } = renderWithRouter(<App />, {
+      initialState: { todos: mockedTodos },
+    });
+
+    const itemsRemaining = getByText('2 items left');
+    const toogleAllButton = getByTestId('toggle-all-button-id');
+
+    fireEvent.click(toogleAllButton);
+
+    const itemsRemainingAfterToggleAllCompleted = getByText('0 items left');
+
+    fireEvent.click(toogleAllButton);
+
+    const itemsRemainingAfterToggleAllActive = getByText('5 items left');
+
+    expect(itemsRemaining).toBeVisible();
+    expect(itemsRemainingAfterToggleAllActive).toBeVisible();
+    expect(itemsRemainingAfterToggleAllCompleted).toBeVisible();
+  });
 });
 
 describe('redux TODO tests', () => {
