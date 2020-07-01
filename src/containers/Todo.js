@@ -20,11 +20,13 @@ class Todo extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.update_todo({
-      id: this.props.itemToUpdate,
-      title: this.state.titleToUpdate,
-    });
-    this.toggleVisibleForm('');
+    if (this.state.titleToUpdate.length > 0) {
+      this.props.update_todo({
+        id: this.props.itemToUpdate,
+        title: this.state.titleToUpdate,
+      });
+      this.toggleVisibleForm('');
+    }
   };
 
   handleRemove = (id) => this.props.remove_todo(id);

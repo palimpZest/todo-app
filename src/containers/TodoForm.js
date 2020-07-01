@@ -16,12 +16,14 @@ class TodoForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.add_todo({
-      id: uuidv4(),
-      title: this.state.value,
-      completed: false,
-    });
-    this.setState({ value: '' });
+    if (this.state.value.length > 0) {
+      this.props.add_todo({
+        id: uuidv4(),
+        title: this.state.value,
+        completed: false,
+      });
+      this.setState({ value: '' });
+    }
   };
 
   render() {
