@@ -13,9 +13,15 @@ import './index.css';
 
 const savedState = loadState();
 
-const store = compose(
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-)(createStore)(todoReducer, savedState);
+let store;
+if (process.env.NODE_ENV !== 'production') {
+  store = compose(
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__(),
+  )(createStore)(todoReducer, savedState);
+} else {
+  store = createStore(todoReducer, savedState);
+}
 
 store.subscribe(() =>
   setTimeout(() => {
