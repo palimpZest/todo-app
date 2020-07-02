@@ -2,7 +2,9 @@
 
 #### **_A TODO app to plan fast and easy._**
 
-**[Click to see a live version](https://palimpzest-react-redux-todo.netlify.app/ 'Go to app')**
+##### Redux version :fireworks:
+
+**[Click to see it live](https://palimpzest-react-redux-todo.netlify.app/ 'Go to app')**
 
 #### **Features inspired by [todomvc](http://todomvc.com/ 'Go to site')**
 
