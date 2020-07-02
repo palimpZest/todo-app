@@ -1,3 +1,4 @@
+// https://redux.js.org/introduction/core-concepts
 import { connect } from 'react-redux';
 
 import TodoList from '../components/TodoList';

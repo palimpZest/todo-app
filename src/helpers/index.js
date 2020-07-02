@@ -1,3 +1,4 @@
+// https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage
 const REDUX_STATE = 'redux-state';
 
 export const getActiveItems = (todos) => {
