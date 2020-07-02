@@ -15,6 +15,8 @@ import {
 
 import { getActiveItems } from './helpers';
 
+import checkMark from './check-mark.svg';
+
 import './App.css';
 
 class App extends Component {
@@ -44,23 +46,30 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>todos</h1>
-        <div style={{ display: 'flex' }}>
+        <h1 className="text-logo">tasker</h1>
+        <div className="todo-input-holder">
           <button
+            className="toggle-all-button"
             data-testid="toggle-all-button-id"
             onClick={this.toogleEveryTodoStatus}
           >
-            v
+            <img
+              className={
+                activeItems ? 'toogle-all-red-check' : 'toogle-all-green-check'
+              }
+              src={checkMark}
+              alt="a check mark"
+            />
           </button>
           <TodoForm />
         </div>
-        <VisibleTodoList filter={params.filter || 'all'} />
         <ButtonBar
           handleClearCompleted={this.handleClearCompleted}
           areSomeCompleted={areSomeCompleted}
           activeItems={activeItems}
           hasTodos={hasTodos}
         />
+        <VisibleTodoList filter={params.filter || 'all'} />
       </div>
     );
   }

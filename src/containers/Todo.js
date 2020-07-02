@@ -37,24 +37,26 @@ class Todo extends PureComponent {
     const { title, completed, id, itemToUpdate } = this.props;
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          textDecoration: completed ? 'line-through' : 'none',
-        }}
-      >
-        <input
-          data-testid={`checkbox-id-${id}`}
-          type="checkbox"
-          checked={completed}
-          id={`${id}`}
-          name={`${title}`}
-          value={completed ? 'completed' : 'active'}
-          onChange={() => this.toggleStatus(id)}
-        />
+      <div className="todo-holder">
+        <div className="todo-toogle-input">
+          <label className="checkbox-container">
+            <input
+              className="checkbox"
+              data-testid={`checkbox-id-${id}`}
+              type="checkbox"
+              checked={completed}
+              id={`${id}`}
+              name={`${title}`}
+              value={completed ? 'completed' : 'active'}
+              onChange={() => this.toggleStatus(id)}
+            />
+            <span className="checkmark"></span>
+          </label>
+        </div>
         {itemToUpdate === id ? (
           <form onSubmit={this.handleSubmit}>
             <input
+              className="todo-update-input"
               data-testid="todo-update-input-id"
               type="text"
               autoFocus
@@ -63,20 +65,27 @@ class Todo extends PureComponent {
             />
           </form>
         ) : (
-          <p
-            id={`${id}`}
-            data-testid="todo-item-id"
-            onDoubleClick={() => this.toggleVisibleForm(id)}
-          >
-            {title}
-          </p>
+          <div className="todo-item">
+            <p
+              style={{
+                textDecoration: completed ? 'line-through' : 'none',
+              }}
+              className="todo-title"
+              id={`${id}`}
+              data-testid="todo-item-id"
+              onDoubleClick={() => this.toggleVisibleForm(id)}
+            >
+              {title}
+            </p>
+            <button
+              className="remove-button"
+              data-testid={`delete-button-${id}`}
+              onClick={() => this.handleRemove(id)}
+            >
+              x
+            </button>
+          </div>
         )}
-        <button
-          data-testid={`delete-button-${id}`}
-          onClick={() => this.handleRemove(id)}
-        >
-          x
-        </button>
       </div>
     );
   }
