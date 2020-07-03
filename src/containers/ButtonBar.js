@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import FilterLink from './FilterLink';
+import FilterLink from '../components/FilterLink';
 
 import { VisibilityFilters, remove_completed_todos } from '../actions';
 
