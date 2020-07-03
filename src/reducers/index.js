@@ -1,5 +1,4 @@
 import {
-  DISPLAY_ALL_TODOS,
   ADD_TODO,
   SELECT_ITEM_TO_UPDATE,
   UPDATE_TODO,
@@ -11,8 +10,6 @@ import {
 
 const todoReducer = (state = { todos: [], itemToUpdate: '' }, action) => {
   switch (action.type) {
-    case DISPLAY_ALL_TODOS:
-      return state;
     case ADD_TODO:
       return { ...state, todos: state.todos.concat(action.todo) };
     case SELECT_ITEM_TO_UPDATE:

@@ -1,4 +1,3 @@
-export const DISPLAY_ALL_TODOS = 'DISPLAY_ALL_TODOS';
 export const ADD_TODO = 'ADD_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
 export const REMOVE_COMPLETED_TODOS = 'REMOVE_COMPLETED_TODOS';
@@ -6,12 +5,6 @@ export const TOGGLE_TODO_STATUS = 'TOGGLE_TODO_STATUS';
 export const TOGGLE_EVERY_TODO_STATUS = 'TOGGLE_EVERY_TODO_STATUS';
 export const UPDATE_TODO = 'UPDATE_TODO';
 export const SELECT_ITEM_TO_UPDATE = 'SELECT_ITEM_TO_UPDATE';
-
-export function display_todos() {
-  return {
-    type: DISPLAY_ALL_TODOS,
-  };
-}
 
 export function add_todo(todo) {
   return {

@@ -280,15 +280,6 @@ describe('App todo display tests', () => {
 });
 
 describe('redux TODO tests', () => {
-  test('should display all items', () => {
-    const state = { todos: mockedTodos };
-    const action = { type: actions.DISPLAY_ALL_TODOS };
-    const currentStoreState = todoReducer(state, action);
-
-    expect(mockedTodos.length).toBe(currentStoreState.todos.length);
-    expect(currentStoreState.todos.length).toBe(5);
-  });
-
   test('should add todo item', () => {
     const state = { todos: mockedTodos };
     const action = { type: actions.ADD_TODO, todo: itemToAdd };
