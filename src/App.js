@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import TodoForm from './containers/TodoForm';
-import ButtonBar from './components/ButtonBar';
+import ButtonBar from './containers/ButtonBar';
 import VisibleTodoList from './containers/VisibleTodoList';
 
 import './App.css';
